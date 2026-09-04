@@ -94,6 +94,26 @@ presupuestos», «léeme la nota del plan de 2026», «qué escribí la semana p
 
 ---
 
+## Varios vaults
+
+Cada instalación sirve **un** vault. Para conectar otro, se clona el proyecto
+en otra carpeta y se corre el instalador ahí:
+
+```bash
+git clone https://github.com/prcontreras23/obsidian-vault-mcp.git ~/mi-otro-vault-mcp
+cd ~/mi-otro-vault-mcp
+./install.sh
+```
+
+Cada copia queda con su propio servidor, su propia base, su propia contraseña y
+su propia tarea de sync, así que los vaults no se mezclan ni se pisan: el nombre
+de la tarea programada lleva el de la carpeta del proyecto.
+
+En el celular se agregan como dos conectores distintos, y cada uno pide su
+contraseña.
+
+---
+
 ## Uso diario
 
 ```bash
