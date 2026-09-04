@@ -30,7 +30,7 @@ sirve). Si no tienes Node, los scripts de abajo lo instalan.
 ### macOS y Linux
 
 ```bash
-git clone https://github.com/USUARIO/obsidian-vault-mcp.git ~/obsidian-vault-mcp
+git clone https://github.com/prcontreras23/obsidian-vault-mcp.git ~/obsidian-vault-mcp
 cd ~/obsidian-vault-mcp
 ./install.sh
 ```
@@ -38,7 +38,7 @@ cd ~/obsidian-vault-mcp
 O en una línea, sin clonar antes:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/USUARIO/obsidian-vault-mcp/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/prcontreras23/obsidian-vault-mcp/main/install.sh | bash
 ```
 
 ### Windows
@@ -46,7 +46,7 @@ curl -fsSL https://raw.githubusercontent.com/USUARIO/obsidian-vault-mcp/main/ins
 En PowerShell:
 
 ```powershell
-git clone https://github.com/USUARIO/obsidian-vault-mcp.git $HOME\obsidian-vault-mcp
+git clone https://github.com/prcontreras23/obsidian-vault-mcp.git $HOME\obsidian-vault-mcp
 cd $HOME\obsidian-vault-mcp
 .\install.ps1
 ```
@@ -54,7 +54,7 @@ cd $HOME\obsidian-vault-mcp
 O en una línea:
 
 ```powershell
-irm https://raw.githubusercontent.com/USUARIO/obsidian-vault-mcp/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/prcontreras23/obsidian-vault-mcp/main/install.ps1 | iex
 ```
 
 Si PowerShell se niega a ejecutar el script, corre antes

@@ -7,14 +7,14 @@
 #        ./install.sh
 #
 #   2) Desde cero, en una línea:
-#        curl -fsSL https://raw.githubusercontent.com/USUARIO/obsidian-vault-mcp/main/install.sh | bash
+#        curl -fsSL https://raw.githubusercontent.com/prcontreras23/obsidian-vault-mcp/main/install.sh | bash
 #
 # Revisa qué falta (git, Node 20+), lo instala con el gestor de paquetes del
 # sistema si hace falta, y luego lanza el instalador guiado.
 
 set -euo pipefail
 
-REPO_URL="${OVM_REPO:-https://github.com/USUARIO/obsidian-vault-mcp.git}"
+REPO_URL="${OVM_REPO:-https://github.com/prcontreras23/obsidian-vault-mcp.git}"
 DESTINO="${OVM_DIR:-$HOME/obsidian-vault-mcp}"
 
 verde() { printf '\033[32m%s\033[0m\n' "$1"; }

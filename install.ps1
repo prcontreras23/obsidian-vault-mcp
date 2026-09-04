@@ -6,7 +6,7 @@
 #        .\install.ps1
 #
 #   2) Desde cero, en una línea:
-#        irm https://raw.githubusercontent.com/USUARIO/obsidian-vault-mcp/main/install.ps1 | iex
+#        irm https://raw.githubusercontent.com/prcontreras23/obsidian-vault-mcp/main/install.ps1 | iex
 #
 # Revisa qué falta (git, Node 20+), lo instala con winget o Chocolatey si hace
 # falta, y luego lanza el instalador guiado.
@@ -21,7 +21,7 @@ function Gris($m)  { Write-Host "  $m" -ForegroundColor DarkGray }
 function Rojo($m)  { Write-Host "  $m" -ForegroundColor Red }
 function Neg($m)   { Write-Host "  $m" -ForegroundColor White }
 
-$RepoUrl = if ($env:OVM_REPO) { $env:OVM_REPO } else { 'https://github.com/USUARIO/obsidian-vault-mcp.git' }
+$RepoUrl = if ($env:OVM_REPO) { $env:OVM_REPO } else { 'https://github.com/prcontreras23/obsidian-vault-mcp.git' }
 $Destino = if ($env:OVM_DIR)  { $env:OVM_DIR }  else { Join-Path $HOME 'obsidian-vault-mcp' }
 
 Write-Host ''
