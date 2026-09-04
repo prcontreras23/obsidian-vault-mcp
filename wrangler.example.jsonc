@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "obsidian-vault-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "observability": { "enabled": true },
+
+  // URL pública en workers.dev, sin las URL de preview: en un servidor privado
+  // cada dirección extra es superficie que no hace falta.
+  "workers_dev": true,
+  "preview_urls": false,
+
+  // Los ids los rellena `npm run setup` (o los pones a mano tras crear los recursos).
+  "d1_databases": [
+    {
+      "binding": "VAULT_DB",
+      "database_name": "PENDIENTE",
+      "database_id": "PENDIENTE"
+    }
+  ],
+
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "PENDIENTE"
+    }
+  ],
+
+  "vars": {
+    // Solo cosmético: es el nombre que el servidor usa al presentarse.
+    "VAULT_NAME": "MiVault"
+  }
+
+  // VAULT_PASSWORD no va aquí: es un secreto.
+  //   npx wrangler secret put VAULT_PASSWORD
+}

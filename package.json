@@ -1,0 +1,36 @@
+{
+  "name": "obsidian-vault-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "node setup/setup.mjs",
+    "sync": "node setup/run-sync.mjs",
+    "sync:full": "node setup/run-sync.mjs --full",
+    "sync:check": "node setup/run-sync.mjs --dry-run",
+    "sync:offline": "node setup/run-sync.mjs --offline",
+    "schedule": "node setup/schedule.mjs install",
+    "schedule:status": "node setup/schedule.mjs status",
+    "schedule:remove": "node setup/schedule.mjs remove",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "node test/e2e.mjs"
+  },
+  "dependencies": {
+    "@cloudflare/workers-oauth-provider": "^0.10.3",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "agents": "^0.22.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260904.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.129.0"
+  },
+  "description": "Servidor MCP de solo lectura sobre un vault de Obsidian, para leerlo desde el celular.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

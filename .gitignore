@@ -1,0 +1,11 @@
+node_modules/
+.wrangler/
+.dev.vars
+sync/.env
+sync/sync.log
+*.log
+.DS_Store
+
+# La config real trae los ids de TU cuenta: la escribe `npm run setup`
+# a partir de wrangler.example.jsonc
+wrangler.jsonc
