@@ -13,13 +13,31 @@
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { homedir, platform, tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const OS = platform();
-const ETIQUETA = "com.obsidian-vault-mcp.sync";
-const TAREA_WIN = "ObsidianVaultMcpSync";
+
+/**
+ * Cada instalación se identifica por el nombre de su carpeta.
+ *
+ * Hace falta porque una misma computadora puede servir varios vaults, cada uno
+ * en su propia copia del proyecto: con un nombre de tarea fijo, la segunda
+ * instalación le pisaría la programación a la primera.
+ */
+const SLUG = (basename(RAIZ) || "obsidian-vault-mcp")
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-+|-+$/g, "");
+
+// La instalación en una carpeta con el nombre por defecto se queda con los
+// nombres cortos; las demás llevan sufijo.
+const PRINCIPAL = SLUG === "obsidian-vault-mcp";
+
+const ETIQUETA = PRINCIPAL ? "com.obsidian-vault-mcp.sync" : `com.obsidian-vault-mcp.${SLUG}`;
+const TAREA_WIN = PRINCIPAL ? "ObsidianVaultMcpSync" : `ObsidianVaultMcpSync-${SLUG}`;
+const UNIDAD = PRINCIPAL ? "obsidian-vault-mcp-sync" : `obsidian-vault-mcp-sync-${SLUG}`;
 const NODE = process.execPath;
 const SCRIPT = join(RAIZ, "setup", "run-sync.mjs");
 const LOG = join(RAIZ, "sync", "sync.log");
@@ -159,9 +177,9 @@ async function instalarLinux(minutos) {
     mkdirSync(dir, { recursive: true });
 
     writeFileSync(
-      join(dir, "obsidian-vault-mcp-sync.service"),
+      join(dir, `${UNIDAD}.service`),
       `[Unit]
-Description=Sube el vault de Obsidian al servidor MCP
+Description=Sube el vault de Obsidian (${SLUG}) al servidor MCP
 
 [Service]
 Type=oneshot
@@ -171,9 +189,9 @@ ExecStart=${NODE} ${SCRIPT}
     );
 
     writeFileSync(
-      join(dir, "obsidian-vault-mcp-sync.timer"),
+      join(dir, `${UNIDAD}.timer`),
       `[Unit]
-Description=Sync periódico del vault de Obsidian
+Description=Sync periódico del vault de Obsidian (${SLUG})
 
 [Timer]
 OnBootSec=2min
@@ -186,7 +204,7 @@ WantedBy=timers.target
     );
 
     await correr("systemctl", ["--user", "daemon-reload"]);
-    const r = await correr("systemctl", ["--user", "enable", "--now", "obsidian-vault-mcp-sync.timer"]);
+    const r = await correr("systemctl", ["--user", "enable", "--now", `${UNIDAD}.timer`]);
     if (r.code !== 0) {
       err(`systemd rechazó el temporizador: ${r.stderr}`);
       return false;
@@ -217,8 +235,8 @@ WantedBy=timers.target
 
 async function quitarLinux() {
   if (await tieneSystemd()) {
-    await correr("systemctl", ["--user", "disable", "--now", "obsidian-vault-mcp-sync.timer"]);
-    for (const f of ["obsidian-vault-mcp-sync.timer", "obsidian-vault-mcp-sync.service"]) {
+    await correr("systemctl", ["--user", "disable", "--now", `${UNIDAD}.timer`]);
+    for (const f of [`${UNIDAD}.timer`, `${UNIDAD}.service`]) {
       const p = join(unidadDir(), f);
       if (existsSync(p)) unlinkSync(p);
     }
@@ -240,8 +258,8 @@ async function quitarLinux() {
 
 async function estadoLinux() {
   if (await tieneSystemd()) {
-    const r = await correr("systemctl", ["--user", "list-timers", "obsidian-vault-mcp-sync.timer", "--no-pager"]);
-    if (r.stdout.includes("obsidian-vault-mcp-sync")) return ok(`Activa:\n${r.stdout.trim()}`);
+    const r = await correr("systemctl", ["--user", "list-timers", `${UNIDAD}.timer`, "--no-pager"]);
+    if (r.stdout.includes(UNIDAD)) return ok(`Activa:\n${r.stdout.trim()}`);
   }
   const cron = await correr("crontab", ["-l"]);
   cron.stdout?.includes(SCRIPT) ? ok("Activa vía cron") : info("No hay nada programado.");
